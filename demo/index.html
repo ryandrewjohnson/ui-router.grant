@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ui-router grant demo</title>
+
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+
+  <style type="text/css" media="screen">
+    button {
+      outline: none !important;
+    }
+    .dropdown-toggle {
+      cursor: pointer;
+    }
+  </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="grant.js" type="text/javascript" charset="utf-8"></script>
+  <script src="app.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body ng-app="demo" ng-controller="DemoController as demo">
+
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Grant Demo</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Only Allow <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a ui-sref="guest-only">Guest</a></li>
+              <li><a ui-sref="user-only">User</a></li>
+              <li><a ui-sref="admin-only">Admin</a></li>
+            </ul>
+          </li>
+
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Allow Except <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a ui-sref="except-guest">Guest</a></li>
+              <li><a ui-sref="except-user">User</a></li>
+              <li><a ui-sref="except-admin">Admin</a></li>
+            </ul>
+          </li>
+
+          <li><a ui-sref="combined">User and Admin</a></li>
+
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="row" style="margin: 20px;">
+
+    <h3 class="text-center">Current Role(s):
+      <span class="label label-default" ng-hide="demo.roles.user || demo.roles.admin || demo.roles.editor">Guest</span>
+      <span class="label label-success" ng-if="demo.roles.user">User</span>
+      <span class="label label-success" ng-if="demo.roles.admin">Admin</span>
+    </h3>
+
+    <div>
+      <button type="button" class="btn" ng-click="demo.toggleRole('user')" ng-class="{'btn-success': demo.roles.user}">User</button>
+      <button type="button" class="btn" ng-click="demo.toggleRole('admin')" ng-class="{'btn-success': demo.roles.admin}">Admin</button>
+    </div>
+
+    <div ui-view></div>
+
+  </div>
+
+</body>
+
+</html>
