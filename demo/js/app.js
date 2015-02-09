@@ -23,42 +23,42 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('home', {
       url: '',
-      templateUrl: 'home.html'
+      templateUrl: 'partials/home.html'
     })
 
     .state('guest-only', {
       url: '/guests',
-      templateUrl: 'only-guest.html'
+      templateUrl: 'partials/only-guest.html'
     })
 
     .state('user-only', {
       url: '/users',
-      templateUrl: 'only-user.html'
+      templateUrl: 'partials/only-user.html'
     })
 
     .state('admin-only', {
       url: '/admins',
-      templateUrl: 'only-admin.html'
+      templateUrl: 'partials/only-admin.html'
     })
 
     .state('except-guest', {
       url: '/no-guests',
-      templateUrl: 'except-guest.html'
+      templateUrl: 'partials/except-guest.html'
     })
 
     .state('except-user', {
       url: '/no-users',
-      templateUrl: 'except-user.html'
+      templateUrl: 'partials/except-user.html'
     })
 
     .state('except-admin', {
       url: '/no-admins',
-      templateUrl: 'except-admin.html'
+      templateUrl: 'partials/except-admin.html'
     })
 
     .state('combined', {
       url: '/combined',
-      templateUrl: 'combined.html'
+      templateUrl: 'partials/combined.html'
     })
 
 }])
