@@ -32,6 +32,53 @@ module.exports = function(grunt) {
           open: true
         }
       }
+    },
+
+    concurrent: {
+      options: {
+        logConcurrentOutput: true
+      },
+      tasks: ['karma:unit', 'connect']
+    },
+
+    karma: {
+      options: {
+        files: [
+          'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js',
+          'https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular-mocks.js',
+          'src/grant.js',
+          'test/*.spec.js'
+        ],
+        client: {
+          captureConsole: true
+        },
+        frameworks: ['mocha', 'sinon-chai'],
+        reporters: ['mocha'],
+        browsers: ['Chrome'],
+        autoWatch: false,
+        singleRun: true,
+        colors: true
+      },
+      unit: {
+        autoWatch: true,
+        singleRun: false
+      },
+      unit_coverage: {
+        reporters: ['mocha', 'coverage'],
+        preprocessors: {
+          '<%= paths.js %>/app.js': ['coverage']
+        },
+        coverageReporter: {
+          type : 'html',
+          dir : 'coverage',
+          subdir: function(browser) {
+            // normalization process to keep a consistent browser name accross different OS
+            // e.g. for chrome would be coverage/chrome
+            return browser.toLowerCase().split(/[ /-]/)[0];
+          }
+        }
+      }
     }
 
   });
@@ -39,7 +86,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-concurrent');
 
   // Default task.
-  grunt.registerTask('default', ['clean', 'uglify']);
+  grunt.registerTask('default', ['concurrent']);
+
+  grunt.registerTask('build', ['clean', 'uglify']);
 };
