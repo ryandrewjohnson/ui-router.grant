@@ -46,6 +46,11 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/home.html'
     })
 
+    .state('denied', {
+      url: '/denied',
+      templateUrl: 'partials/denied.html'
+    })
+
     .state('guest-only', {
       url: '/guests',
       templateUrl: 'partials/only-guest.html'
@@ -56,7 +61,7 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/only-user.html',
       resolve: {
         user: function(grant) {
-          return grant.only({test: 'user', state: 'home'});
+          return grant.only({test: 'user', state: 'denied'});
         }
       }
     })

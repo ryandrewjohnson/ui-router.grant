@@ -7,19 +7,16 @@ describe('Grant Service', function () {
       callbacks,
       resolve,
       reject,
-      isLoggedIn = false,
-      $rootScope,
-      $httpBackend;
+      $rootScope;
 
 
   beforeEach(function() {
     module('ui.router.grant');
 
-    inject(function(_$rootScope_, _$httpBackend_, _grant_, _GrantTest_) {
+    inject(function(_$rootScope_, _grant_, _GrantTest_) {
       GrantTest = _GrantTest_;
       grant = _grant_;
       $rootScope = _$rootScope_;
-      $httpBackend = _$httpBackend_;
     });
 
     callbacks = {reject: function () {}, resolve: function () {}};
@@ -84,6 +81,16 @@ describe('Grant Service', function () {
       expect(resolve).to.not.be.called;
     });
 
+    it('should return single value for single test', function() {
+      grant.addTest('guest', function() { return 1; });
+
+      var promise = grant.only({test: 'guest', state: 'test.state'});
+
+      promise.should.eventually.eql([1]);
+
+      $rootScope.$digest();
+    });
+
     it('should resolve multiple tests', function() {
       grant.addTest('guest', function() { return true; });
       grant.addTest('admin', function() { return true; });
@@ -116,6 +123,22 @@ describe('Grant Service', function () {
 
       expect(reject).to.have.been.called;
       expect(resolve).to.not.be.called;
+    });
+
+    it('should return array of values for multiple tests', function() {
+      grant.addTest('guest', function() { return 1; });
+      grant.addTest('admin', function() { return 2; });
+
+      var options = [
+        {test: 'guest', state: 'test.state'},
+        {test: 'admin', state: 'test.state'},
+      ];
+
+      var promise = grant.only(options);
+
+      promise.should.eventually.eql([1,2]);
+
+      $rootScope.$digest();
     });
   });
 
@@ -184,4 +207,52 @@ describe('Grant Service', function () {
       expect(resolve).to.not.be.called;
     });
   });
+});
+
+
+describe('Grant Test', function () {
+  var grant,
+      GrantTest,
+      $rootScope;
+
+  beforeEach(function() {
+    module('ui.router.grant');
+
+    inject(function(_$rootScope_, _grant_, _GrantTest_) {
+      GrantTest = _GrantTest_;
+      grant = _grant_;
+      $rootScope = _$rootScope_;
+    });
+  });
+
+  describe('#constructor', function() {
+    it('should throw an error on invalid params', function() {
+      expect(function() {
+        new GrantTest(123, 123);
+      }).to.throw(Error);
+    });
+
+    it('should create new GrantTest', function() {
+      expect(function() {
+        new GrantTest('validRole', function() {});
+      })
+      .to.not.throw(Error);
+    });
+  });
+
+  describe('#setStateParams', function() {
+    it('should add stateParams to GrantTest instance', function() {
+      var test = new GrantTest('validRole', function() {});
+      test.setStateParams({page: 1});
+      expect(test.stateParams).to.deep.equal({page: 1});
+    });
+  });
+
+  describe('#validate', function() {
+    it('should return a promise', function() {
+      var test = new GrantTest('validRole', function() { return true; });
+      expect(test.validate().then).to.not.be.an('undefined');
+    });
+  });
+
 });

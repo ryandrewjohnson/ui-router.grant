@@ -53,7 +53,7 @@ module.exports = function(grunt) {
         client: {
           captureConsole: true
         },
-        frameworks: ['mocha', 'sinon-chai'],
+        frameworks: ['mocha', 'chai', 'chai-as-promised', 'sinon-chai'],
         reporters: ['mocha'],
         browsers: ['Chrome'],
         autoWatch: false,

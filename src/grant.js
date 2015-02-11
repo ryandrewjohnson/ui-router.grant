@@ -224,25 +224,23 @@ angular.module('ui.router.grant', ['ui.router'])
 
   function onStateChangeError(evt, toState, toParams, fromState, fromParams, error) {
 
-    console.log('onStateChangeError', GRANT_ERROR, error);
-
     if (error && error.type === GRANT_ERROR) {
-      console.log('YOU SHALL NOT PASS!!!', error);
 
+      // prevent infinite loop of redirects if user has selected
+      // a to state that is equal to current state
       if (error.stateTo === fromState) {
         evt.preventDefault();
+        console.log('grant: test "'+error.test+'" stateTo redirect prevented. State "'+error.stateTo+'" is the current state');
+        return;
       }
 
-      /*
-      if (!$state.get(stateTo)) {
-      throw new Error('StateTo must be a valid ui-router state name');
+      if (!$state.get(error.stateTo)) {
+        evt.preventDefault();
+        console.log('grant: test "'+error.test+'" stateTo redirect prevented. State name "'+error.stateTo+'" does not exist in ui-router $stateProvider');
+        return;
       }
-      */
 
-     // TODO: Should I protect against endless loops here? e.g. Some role keeps trying to redirect ot the current state.
-     // THis would be due to user error but might be helpful to warn
-     // SHould also catch errors for invalid stateTo
-
+      // redirect to test's fail state
       $state.go(error.stateTo);
     }
   }
