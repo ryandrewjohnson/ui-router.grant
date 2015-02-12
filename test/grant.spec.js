@@ -86,7 +86,7 @@ describe('Grant Service', function () {
 
       var promise = grant.only({test: 'guest', state: 'test.state'});
 
-      promise.should.eventually.eql([1]);
+      promise.should.eventually.eql(1);
 
       $rootScope.$digest();
     });

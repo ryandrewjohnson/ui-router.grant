@@ -87,6 +87,10 @@ angular.module('ui.router.grant', ['ui.router'])
 
         $q.all(matches)
           .then(function(results) {
+            // If only one result is returned then just return that
+            // instead of having it in an array
+            if (results.length === 1) { results = results[0]; }
+
             deferred.resolve(results);
           })
           .catch(function(err) {
