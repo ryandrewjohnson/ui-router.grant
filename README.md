@@ -4,7 +4,7 @@
 
 #### Easily protect your ui-router states with this angular module
 
-The UI Router Grant module provides a quick and easy solution for adding test(s) to your ui-router states. For example if you wanted to restrict certain states to authenticated users, ui-router.grant is an easy way to get this working. For more details check out the [demo]() or [getting started]() section.
+The UI Router Grant module provides a quick and easy solution for adding test(s) to your ui-router states. For example if you wanted to restrict certain states to authenticated users, ui-router.grant is a quick solve. For more details check out the [demo]() or the [getting started]() section.
 
 * [Demo]()
 * [Installation]()
@@ -55,9 +55,9 @@ The ui.router.grant module is primarily made up off two core angular services `g
 ```javascript
 $stateProvider
 
-    .state('user-only', {
-      url: '/users',
-      templateUrl: 'partials/only-user.html'
+    .state('member-only', {
+      url: '/members',
+      templateUrl: 'partials/only-member.html'
     })
 
     .state('admin-only', {
@@ -65,9 +65,9 @@ $stateProvider
       templateUrl: 'partials/only-admin.html'
     })
 
-    .state('except-user', {
-      url: '/no-users',
-      templateUrl: 'partials/except-user.html'
+    .state('except-member', {
+      url: '/no-members',
+      templateUrl: 'partials/except-member.html'
     })
 
     .state('combined', {
@@ -83,30 +83,30 @@ $stateProvider
 
 The following states are currently accessible by any user, but we would like to enforce the following rules:
 
-* `user-only` can only be accessed by *users*
-* `admin-only` can only be accessed by *admins*
-* `except-user` can be accessed by anyone except *users*
-* `combined` can only be accessed by someone who is both a *user* and *admin*
+* `member-only` can only be accessed by **members**
+* `admin-only` can only be accessed by **admins**
+* `except-member` can be accessed by anyone except **members**
+* `combined` can only be accessed by someone who is both a **member** and **admin**
 * 'denied' will be where users are redirected when failing a grant test
 
-Creating tests with the grant module is easy. In order to enforce the above rules we need to create tests that will determine if someone is a **user** or **admin**.
+Creating tests with the grant module is easy. In order to enforce the above rules we need to create tests that will determine if someone is a **member** or **admin**.
 
 ```javascript
 app.module('app', ['ui.router.grant'])
 
-.run(function(grant, userService, adminService) {
+.run(function(grant, memberService, adminService) {
 
   /**
    * A test is very simple and takes two params.
    * @param  {String}     testName - A unique id for the test.
    * @param  {Function}   validate - A function that will validate whether your test passes or fails.
    */
-  grant.addTest('user', function() {
-    // In this example lets assume that userService is making a request
-    // a RESTful service to retreive the current user and will return a promise.
-    // If the user exists promise will resolve and test will pass.
-    // If the user doesn't exist promise will reject and test will fail.
-    return userService.getUser();
+  grant.addTest('member', function() {
+    // In this example lets assume that memberService is making a request
+    // a RESTful service to retreive the member and will return a promise.
+    // If the member exists promise will resolve and test will pass.
+    // If the member doesn't exist promise will reject and test will fail.
+    return memberService.getUser();
   });
 
   grant.addTest('admin', function() {
@@ -122,25 +122,25 @@ app.module('app', ['ui.router.grant'])
 
 
 
-#### grant.only(options) single test
+#### Only allow user's that are admins
 
-Now that the tests are created let's use them to protect our states. Start by restricting access to the 'user-only' and 'admin-only' states.
+Now that the tests are created let's use them to protect our states. Start by restricting access to the 'member-only' and 'admin-only' states.
 
 
 >
-The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object has a *test* (test name) and *state* (ui-router state the user will be redirected to on test fail) property.
+The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to on test fail) property.
 
 ```javascript
-.state('user-only', {
-  url: '/users',
-  templateUrl: 'partials/only-user.html',
-  controller: function(user) {
-    // user would be the value returned from the user grant test's validate funciton
-    var newUser = user;
+.state('member-only', {
+  url: '/members',
+  templateUrl: 'partials/only-member.html',
+  controller: function(member) {
+    // member would be the value returned from the member grant test's validate funciton
+    var newUser = member;
   },
   resolve: {
-    user: function(grant) {
-      return grant.only({test: 'user', state: 'denied'});
+    member: function(grant) {
+      return grant.only({test: 'member', state: 'denied'});
     }
   }
 })
@@ -157,12 +157,12 @@ The options param can either be a single test object, or an array of test object
 ```
 
 
-#### grant.only(options) multiple tests
+#### Only allow user's that are both members and admins
 
-To protect the `combined` state we need to add both the *user* and *admin* tests to the `grant.only` call.
+To protect the `combined` state we need to pass both the **member** and **admin** tests to `grant.only`. Before a state with multiple grant tests can resolve all tests will need to pass. It is all or nothing - if a single test fails the user will be redirected to the fail state.
 
 >
-It's important to note that grant's with multiple asynchronous tests may not resolve/reject in the order they are listed. For example let's say that a user fails both the *user* and *admin* tests, but the admin test rejects before the user test. The user will actually be redirected to the admin fail state even though it is listed second.
+It's important to note that grant's with multiple asynchronous tests may not resolve/reject in the order they are listed. For example if a user fails both the **member** and **admin** tests, but the admin test rejects before the member test. The user will actually be redirected to the admin fail state even though it is listed second.
 
 ```javascript
 .state('combined', {
@@ -170,7 +170,7 @@ It's important to note that grant's with multiple asynchronous tests may not res
   templateUrl: 'partials/combined.html'
   controller: function(combined) {
     // combined will be an array of the values returned from grant.only
-    // combined[0] - value returned from user test
+    // combined[0] - value returned from member test
     // combined[1] - value returned from admin test
     var newUser = combined[0];
     var newAdmin = combined[1];
@@ -178,7 +178,7 @@ It's important to note that grant's with multiple asynchronous tests may not res
   resolve: {
     combined: function(grant) {
       return grant.only([
-        {test: 'user', state: 'denied'},
+        {test: 'member', state: 'denied'},
         {test: 'admin', state: 'home'}
       ]);
     }
