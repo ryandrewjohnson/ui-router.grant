@@ -13,6 +13,7 @@ The UI Router Grant module provides a quick and easy solution for adding test(s)
 
 // uses ui-router resolve
 // easily add single or multiple tests for each one of your states, will also redirect
+// assumes that you are familiar with ui-router and resolves
 
 
 
@@ -49,7 +50,7 @@ Once you have successfully installed the module your setup should look similar t
 
 ## Getting Started
 
-The ui.router.grant module is primarily made up off two core angular services `grant` and `GrantTest`. The quickest way to see how grant works is to jump into an example. Let's assume that we have an app with the following ui-router states available:
+The ui.router.grant module is primarily made up off two core angular services `grant` and `GrantTest`. The quickest way to see how the grant module works is to jump into an example. Let's assume that we have an app with the following ui-router states available:
 
 ```javascript
 $stateProvider
@@ -80,15 +81,15 @@ $stateProvider
     })
 ```
 
-The following states are currently accessible by any user, but what we would like to actually happen is restrict certain states to certain users. What we would actually like to happen for the above states is the following:
+The following states are currently accessible by any user, but we would like to enforce the following rules:
 
-* `user-only` can only be accessed by users
-* `admin-only` can only be accessed by admins
-* `except-user` can be accessed by anyone except users
-* `combined` can only be accessed by someone who is both a user and admin
+* `user-only` can only be accessed by *users*
+* `admin-only` can only be accessed by *admins*
+* `except-user` can be accessed by anyone except *users*
+* `combined` can only be accessed by someone who is both a *user* and *admin*
 * 'denied' will be where users are redirected when failing a grant test
 
-Now that we know who should be allowed tp access what state, we need to set up the tests that will determine if someone is a **user** or **admin**. In order to create the tests for these user types you will use the `grant.addTest()` method which will then create an instance of `GrantTest`.
+Creating tests with the grant module is easy. In order to enforce the above rules we need to create tests that will determine if someone is a **user** or **admin**.
 
 ```javascript
 app.module('app', ['ui.router.grant'])
@@ -100,7 +101,6 @@ app.module('app', ['ui.router.grant'])
    * @param  {String}     testName - A unique id for the test.
    * @param  {Function}   validate - A function that will validate whether your test passes or fails.
    */
-
   grant.addTest('user', function() {
     // In this example lets assume that userService is making a request
     // a RESTful service to retreive the current user and will return a promise.
@@ -117,14 +117,18 @@ app.module('app', ['ui.router.grant'])
   });
 
 });
+
 ```
-#### grant.only() single test
 
-Now that we have our tests let's add them to our states. Start by restricting access to the 'user-only' and 'admin-only' states. For each of these states we are going to add a single test using the 'grant.only(options).
-<br/>
-<br/>
-The options param can either be a single test object, or an array of test objects if there are [multiple tests](). These are single tests, so just pass in the test object, where the test is the test name, and the state is a valid ui-router state. This is the state the user will be redirected to if the grant test fails.
 
+
+#### grant.only(options) single test
+
+Now that the tests are created let's use them to protect our states. Start by restricting access to the 'user-only' and 'admin-only' states.
+
+
+>
+The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object has a *test* (test name) and *state* (ui-router state the user will be redirected to on test fail) property.
 
 ```javascript
 .state('user-only', {
@@ -152,10 +156,35 @@ The options param can either be a single test object, or an array of test object
 })
 ```
 
-// grant.only returns the value returned from the test's validate function
-    // This means you have access to in the state's controller
 
+#### grant.only(options) multiple tests
 
+To protect the `combined` state we need to add both the *user* and *admin* tests to the `grant.only` call.
+
+>
+It's important to note that grant's with multiple asynchronous tests may not resolve/reject in the order they are listed. For example let's say that a user fails both the *user* and *admin* tests, but the admin test rejects before the user test. The user will actually be redirected to the admin fail state even though it is listed second.
+
+```javascript
+.state('combined', {
+  url: '/combined',
+  templateUrl: 'partials/combined.html'
+  controller: function(combined) {
+    // combined will be an array of the values returned from grant.only
+    // combined[0] - value returned from user test
+    // combined[1] - value returned from admin test
+    var newUser = combined[0];
+    var newAdmin = combined[1];
+  },
+  resolve: {
+    combined: function(grant) {
+      return grant.only([
+        {test: 'user', state: 'denied'},
+        {test: 'admin', state: 'home'}
+      ]);
+    }
+  }
+})
+```
 
 
 #### grant

@@ -119,20 +119,52 @@ angular.module('demo', ['ui.router.grant'])
       }
     })
 
+    .state('parent', {
+      abstract: true,
+      template: '<div ui-view></div>',
+      resolve: {
+        user: function(grant) {
+          return grant.only({test: 'user', state: 'home'});
+        }
+      }
+    })
+
+      .state('parent.child', {
+        url: '/nested',
+        templateUrl: 'partials/nested.html',
+        resolve: {
+          admin: function(grant, user) {
+            return grant.only({test: 'admin', state: 'home'});
+          }
+        }
+      })
+
 }])
 
-.run(['grant', 'faker', function(grant, faker) {
+.run(['grant', 'faker', '$q', function(grant, faker, $q) {
 
   grant.addTest('guest', function() {
     return (!faker.admin() && !faker.user());
   });
 
   grant.addTest('user', function() {
-    return faker.user();
+    var deferred = $q.defer();
+
+    setTimeout(function() {
+      deferred.resolve(faker.user());
+    }, 2000);
+
+    return deferred.promise;
   });
 
   grant.addTest('admin', function() {
-    return faker.admin();
+    var deferred = $q.defer();
+
+    setTimeout(function() {
+      deferred.resolve(faker.admin());
+    }, 1000);
+
+    return deferred.promise;
   });
 
 }]);
