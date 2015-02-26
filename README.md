@@ -122,13 +122,12 @@ app.module('app', ['ui.router.grant'])
 
 
 
-#### Only allow user's that are admins
+#### Allow ONLY user's that are **admins**
 
-Now that the tests are created let's use them to protect our states. Start by restricting access to the 'member-only' and 'admin-only' states.
-
+Use the `grant.only(options)` method to allow state access to only those user's that pass the provided grant tests.
 
 >
-The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to on test fail) property.
+The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) property.
 
 ```javascript
 .state('member-only', {
@@ -157,9 +156,27 @@ The options param can either be a single test object, or an array of test object
 ```
 
 
-#### Only allow user's that are both members and admins
+#### Allow all user's EXCEPT **members**
 
-To protect the `combined` state we need to pass both the **member** and **admin** tests to `grant.only`. Before a state with multiple grant tests can resolve all tests will need to pass. It is all or nothing - if a single test fails the user will be redirected to the fail state.
+Use the `grant.except(options)` method to restrict state access to all user's that pass the provided grant tests, which is the oppisite of `grant.only`.
+
+```javascript
+.state('except-member', {
+  url: '/no-members',
+  templateUrl: 'partials/except-member.html',
+  resolve: {
+    admin: function(grant) {
+      return grant.except({test: 'member', state: 'home'});
+    }
+  }
+})
+```
+
+
+#### Allow ONLY user's that are both **members** and **admins**
+
+When a state requires more than a single
+To restrict access to the `combined` state we need to pass both the **member** and **admin** tests to `grant.only`. Before a state with multiple grant tests can resolve all tests will need to pass. It is all or nothing - if either test fails the user will be redirected to the fail state.
 
 >
 It's important to note that grant's with multiple asynchronous tests may not resolve/reject in the order they are listed. For example if a user fails both the **member** and **admin** tests, but the admin test rejects before the member test. The user will actually be redirected to the admin fail state even though it is listed second.
