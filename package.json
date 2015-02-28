@@ -1,29 +1,23 @@
 {
   "name": "ui-router.grant",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.1.0",
+  "description": "The UI Router Grant module provides a quick and easy solution to protect your ui-router states",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryandrewjohnson/angular-grant.git"
+    "url": "https://github.com/ryandrewjohnson/ui-router.grant"
   },
-  "author": "",
+  "author": "Ryan Johnson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ryandrewjohnson/angular-grant/issues"
+    "url": "https://github.com/ryandrewjohnson/ui-router.grant/issues"
   },
-  "homepage": "https://github.com/ryandrewjohnson/angular-grant",
+  "homepage": "https://github.com/ryandrewjohnson/ui-router.grant",
   "devDependencies": {
     "chai": "^1.10.0",
     "grunt": "^0.4.5",
     "grunt-concurrent": "^1.0.0",
     "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-connect": "^0.9.0",
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-karma": "^0.10.1",

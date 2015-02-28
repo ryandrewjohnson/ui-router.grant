@@ -11,10 +11,7 @@ The UI Router Grant module provides a quick and easy solution for adding test(s)
 * [Getting Started](#getting-started)
 * [API Reference](#api-reference)
 
-
-// uses ui-router resolve
-// easily add single or multiple tests for each one of your states, will also redirect
-// assumes that you are familiar with ui-router and resolves
+> This documentation assumes you are comfortable working with [angular-ui-router](https://github.com/angular-ui/ui-router). The grant module was built specifically to work with ui-router's [resolve](https://github.com/angular-ui/ui-router/wiki#resolve) functionality.
 
 
 

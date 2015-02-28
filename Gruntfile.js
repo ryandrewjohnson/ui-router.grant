@@ -12,13 +12,23 @@ module.exports = function(grunt) {
       files: ['dist']
     },
 
+    concat: {
+      options: {
+        banner: '<%= banner %>'
+      },
+      dist: {
+        src: ['src/grant.js'],
+        dest: 'dist/angular-ui-router.js',
+      },
+    },
+
     uglify: {
       options: {
         banner: '<%= banner %>'
       },
       dist: {
-        src: '<%= concat.dist.dest %>',
-        dest: 'dist/<%= pkg.name %>.min.js'
+        src: 'src/*.js',
+        dest: 'dist/angular-ui-router.min.js'
       },
     },
 
@@ -88,9 +98,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-concurrent');
+  grunt.loadNpmTasks('grunt-contrib-concat');
 
   // Default task.
   grunt.registerTask('default', ['concurrent']);
 
-  grunt.registerTask('build', ['clean', 'uglify']);
+  grunt.registerTask('build', ['clean', 'concat', 'uglify']);
 };
