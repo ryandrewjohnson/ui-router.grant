@@ -23,7 +23,7 @@ The UI Router Grant module provides a quick and easy solution for adding test(s)
 - or via **[npm](https://www.npmjs.org/)**: by running `$ npm install angular-ui-rotuer-grant` from your console
 
 #### Using < IE9
-The module takes advantage of [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) and [Array.prototype.some()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some) which are not available on older browsers. The good news is both these methods can be easily [polyfilled](https://github.com/es-shims/es5-shim).
+The module takes advantage of [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) and [Array.prototype.some()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some) which are unavailable in older browsers. The good news is both these methods can be easily [polyfilled](https://github.com/es-shims/es5-shim).
 
 
 Once you have successfully installed the module your setup should look similar to this:
@@ -50,7 +50,7 @@ Once you have successfully installed the module your setup should look similar t
 
 ## Getting Started
 
-The ui.router.grant module is primarily made up off two core angular services `grant` and `GrantTest`. The quickest way to see how the grant module works is to jump into an example. Let's assume that we have an app with the following ui-router states available:
+The ui.router.grant module is primarily made up off two core angular services `grant` and `GrantTest`. To better explain how the grant module works I'll demo an example. Let's assume that we have an app with the following ui-router states:
 
 ```javascript
 $stateProvider
@@ -102,15 +102,14 @@ app.module('app', ['ui.router.grant'])
    * @param  {Function}   validate - A function that will validate whether your test passes or fails.
    */
   grant.addTest('member', function() {
-    // In this example lets assume that memberService is making a request
-    // a RESTful service to retreive the member and will return a promise.
+    // getUser is an async request to a RESTful API that returns a promise.
     // If the member exists promise will resolve and test will pass.
     // If the member doesn't exist promise will reject and test will fail.
     return memberService.getUser();
   });
 
   grant.addTest('admin', function() {
-    // Instead of a promise you can also return a synchronous value.
+    // You can also return a synchronous value.
     // If the returned value evaluates to true test will pass.
     // If the returned value evaluates to false test will fail.
     return isAdmin;
@@ -127,7 +126,7 @@ app.module('app', ['ui.router.grant'])
 Use the `grant.only(options)` method to allow state access to only those user's that pass the provided grant tests.
 
 >
-The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) property.
+The options param can either be a single test object, or an array of test objects if there are [multiple tests](). A valid test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) properties.
 
 ```javascript
 .state('admin-only', {
@@ -191,7 +190,7 @@ It's important to note that grant's with multiple asynchronous tests may not res
 
 #### Working with nested states
 
-Instead of protecting individual states you can also protect parent states, which means protection will propagate down to all child states. In the example below by applying the grant member test to the `parent` state, we have also protected `parent.child1` and `parent.child2` with the same test.
+Instead of protecting individual states you can also protect parent states, which means that protection will propagate down to all child states. In the below example by applying the grant member test to the `parent` state, we have also protected `parent.child1` and `parent.child2` states with the same test.
 
 ```javascript
 .state('parent', {

@@ -71,7 +71,7 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/only-admin.html',
       resolve: {
         admin: function(grant) {
-          return grant.only({test: 'admin', state: 'home'});
+          return grant.only({test: 'admin', state: 'denied'});
         }
       }
     })
@@ -81,7 +81,7 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/except-guest.html',
       resolve: {
         grant: function(grant) {
-          return grant.except({test: 'guest', state: 'home'});
+          return grant.except({test: 'guest', state: 'denied'});
         }
       }
     })
@@ -91,7 +91,7 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/except-user.html',
       resolve: {
         grant: function(grant) {
-          return grant.except({test: 'user', state: 'home'});
+          return grant.except({test: 'user', state: 'denied'});
         }
       }
     })
@@ -101,7 +101,7 @@ angular.module('demo', ['ui.router.grant'])
       templateUrl: 'partials/except-admin.html',
       resolve: {
         grant: function(grant) {
-          return grant.except({test: 'admin', state: 'home'});
+          return grant.except({test: 'admin', state: 'denied'});
         }
       }
     })
@@ -112,8 +112,8 @@ angular.module('demo', ['ui.router.grant'])
       resolve: {
         grant: function(grant) {
           return grant.only([
-            {test: 'user', state: 'home'},
-            {test: 'admin', state: 'home'},
+            {test: 'user', state: 'denied'},
+            {test: 'admin', state: 'denied'},
           ]);
         }
       }
@@ -124,19 +124,24 @@ angular.module('demo', ['ui.router.grant'])
       template: '<div ui-view></div>',
       resolve: {
         user: function(grant) {
-          return grant.only({test: 'user', state: 'home'});
+          return grant.only({test: 'user', state: 'denied'});
         }
       }
     })
 
-      .state('parent.child', {
-        url: '/nested',
-        templateUrl: 'partials/nested.html',
-        resolve: {
-          admin: function(grant, user) {
-            return grant.only({test: 'admin', state: 'home'});
-          }
-        }
+      .state('parent.child1', {
+        url: '/child1',
+        templateUrl: 'partials/nested.html'
+      })
+
+      .state('parent.child2', {
+        url: '/child2',
+        templateUrl: 'partials/nested.html'
+      })
+
+      .state('parent.child3', {
+        url: '/child3',
+        templateUrl: 'partials/nested.html'
       })
 
 }])
@@ -148,23 +153,11 @@ angular.module('demo', ['ui.router.grant'])
   });
 
   grant.addTest('user', function() {
-    var deferred = $q.defer();
-
-    setTimeout(function() {
-      deferred.resolve(faker.user());
-    }, 2000);
-
-    return deferred.promise;
+    return faker.user();
   });
 
   grant.addTest('admin', function() {
-    var deferred = $q.defer();
-
-    setTimeout(function() {
-      deferred.resolve(faker.admin());
-    }, 1000);
-
-    return deferred.promise;
+    return faker.admin();
   });
 
 }]);

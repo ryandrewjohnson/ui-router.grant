@@ -193,7 +193,6 @@ angular.module('ui.router.grant', ['ui.router'])
 
   function onTestPass(test, resolveIfMatch, deferred, resolvedValue) {
     if (resolveIfMatch) {
-      console.log('resolved', test);
       deferred.resolve(resolvedValue);
     }
     else {

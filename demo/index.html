@@ -67,7 +67,14 @@
 
           <li><a ui-sref="combined">User and Admin</a></li>
 
-          <li><a ui-sref="parent.child">Nested Route</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Nested User <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a ui-sref="parent.child1">Child User #1</a></li>
+              <li><a ui-sref="parent.child2">Child User #2</a></li>
+              <li><a ui-sref="parent.child3">Child User #3</a></li>
+            </ul>
+          </li>
 
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -83,6 +90,7 @@
     </h3>
 
     <div>
+      <span>Select Roles:</span>
       <button type="button" class="btn" ng-click="demo.toggleRole('user')" ng-class="{'btn-success': demo.roles.user}">User</button>
       <button type="button" class="btn" ng-click="demo.toggleRole('admin')" ng-class="{'btn-success': demo.roles.admin}">Admin</button>
     </div>

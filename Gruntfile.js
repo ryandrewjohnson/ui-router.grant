@@ -67,7 +67,7 @@ module.exports = function(grunt) {
       unit_coverage: {
         reporters: ['mocha', 'coverage'],
         preprocessors: {
-          '<%= paths.js %>/app.js': ['coverage']
+          'src/grant.js': ['coverage']
         },
         coverageReporter: {
           type : 'html',
