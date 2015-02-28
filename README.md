@@ -243,16 +243,13 @@ You can also still apply separate grant tests to child states as well. Using the
 ```
 
 
-
 ## API Reference
 
-The grant service is in charge of managing and executing all your grant tests.
+#### grant.addTest( testName, validateFunction )
 
-**grant.addTest(testName, validationFunction)**
+#### grant.hasTest( testName )
 
-**grant.hasTest(testName)**
-
-**grant.only(testName)**
+#### grant.only( testName )
 
 
 
