@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: ['src/grant.js'],
-        dest: 'dist/angular-ui-router.js',
+        dest: 'dist/angular-ui-router-grant.js',
       },
     },
 
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: 'src/*.js',
-        dest: 'dist/angular-ui-router.min.js'
+        dest: 'dist/angular-ui-router-grant.min.js'
       },
     },
 
