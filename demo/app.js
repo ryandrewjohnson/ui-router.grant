@@ -37,28 +37,30 @@ angular.module('demo', ['ui.router.grant'])
   };
 })
 
-.config(['$stateProvider', function($stateProvider) {
+.config(['$stateProvider', '$urlMatcherFactoryProvider', function($stateProvider, $urlMatcherFactoryProvider) {
+
+  $urlMatcherFactoryProvider.strictMode(false);
 
   $stateProvider
 
     .state('home', {
       url: '',
-      templateUrl: 'partials/home.html'
+      templateUrl: 'home.html'
     })
 
     .state('denied', {
       url: '/denied',
-      templateUrl: 'partials/denied.html'
+      templateUrl: 'denied.html'
     })
 
     .state('guest-only', {
       url: '/guests',
-      templateUrl: 'partials/only-guest.html'
+      templateUrl: 'only-guest.html'
     })
 
     .state('user-only', {
       url: '/users',
-      templateUrl: 'partials/only-user.html',
+      templateUrl: 'only-user.html',
       resolve: {
         user: function(grant) {
           return grant.only({test: 'user', state: 'denied'});
@@ -68,7 +70,7 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('admin-only', {
       url: '/admins',
-      templateUrl: 'partials/only-admin.html',
+      templateUrl: 'only-admin.html',
       resolve: {
         admin: function(grant) {
           return grant.only({test: 'admin', state: 'denied'});
@@ -78,7 +80,7 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('except-guest', {
       url: '/no-guests',
-      templateUrl: 'partials/except-guest.html',
+      templateUrl: 'except-guest.html',
       resolve: {
         grant: function(grant) {
           return grant.except({test: 'guest', state: 'denied'});
@@ -88,7 +90,7 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('except-user', {
       url: '/no-users',
-      templateUrl: 'partials/except-user.html',
+      templateUrl: 'except-user.html',
       resolve: {
         grant: function(grant) {
           return grant.except({test: 'user', state: 'denied'});
@@ -98,7 +100,7 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('except-admin', {
       url: '/no-admins',
-      templateUrl: 'partials/except-admin.html',
+      templateUrl: 'except-admin.html',
       resolve: {
         grant: function(grant) {
           return grant.except({test: 'admin', state: 'denied'});
@@ -108,7 +110,7 @@ angular.module('demo', ['ui.router.grant'])
 
     .state('combined', {
       url: '/combined',
-      templateUrl: 'partials/combined.html',
+      templateUrl: 'combined.html',
       resolve: {
         grant: function(grant) {
           return grant.only([
@@ -131,17 +133,17 @@ angular.module('demo', ['ui.router.grant'])
 
       .state('parent.child1', {
         url: '/child1',
-        templateUrl: 'partials/nested.html'
+        templateUrl: 'nested.html'
       })
 
       .state('parent.child2', {
         url: '/child2',
-        templateUrl: 'partials/nested.html'
+        templateUrl: 'nested.html'
       })
 
       .state('parent.child3', {
         url: '/child3',
-        templateUrl: 'partials/nested.html'
+        templateUrl: 'nested.html'
       })
 
 }])
