@@ -87,7 +87,7 @@ The following states are currently accessible by any user, but we would like to 
 * `admin-only` can only be accessed by **admins**
 * `except-member` can be accessed by anyone except **members**
 * `combined` can only be accessed by someone who is both a **member** and **admin**
-* 'denied' will be where users are redirected when failing a grant test
+* `denied` will be where users are redirected when failing a grant test
 
 Creating tests with the grant module is easy. In order to enforce the above rules we need to create tests that will determine if someone is a **member** or **admin**.
 
@@ -122,7 +122,7 @@ app.module('app', ['ui.router.grant'])
 
 
 
-#### Allow ONLY user's that are **admins**
+#### Allow ONLY user's that are admins
 
 Use the `grant.only(options)` method to allow state access to only those user's that pass the provided grant tests.
 
@@ -130,35 +130,21 @@ Use the `grant.only(options)` method to allow state access to only those user's 
 The options param can either be a single test object, or an array of test objects if there are [multiple tests](). Each test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) property.
 
 ```javascript
-.state('member-only', {
-  url: '/members',
-  templateUrl: 'partials/only-member.html',
-  controller: function(member) {
-    // member would be the value returned from the member grant test's validate funciton
-    var newUser = member;
-  },
-  resolve: {
-    member: function(grant) {
-      return grant.only({test: 'member', state: 'denied'});
-    }
-  }
-})
-
 .state('admin-only', {
   url: '/admins',
   templateUrl: 'partials/only-admin.html',
   resolve: {
     admin: function(grant) {
-      return grant.only({test: 'admin', state: 'home'});
+      return grant.only({test: 'admin', state: 'denied'});
     }
   }
 })
 ```
 
 
-#### Allow all user's EXCEPT **members**
+#### Allow all user's EXCEPT members
 
-Use the `grant.except(options)` method to restrict state access to all user's that pass the provided grant tests, which is the oppisite of `grant.only`.
+Use the `grant.except(options)` method to restrict state access to all user's that pass the provided grant tests. Essentially this does the oppisite of `grant.only`.
 
 ```javascript
 .state('except-member', {
@@ -166,17 +152,16 @@ Use the `grant.except(options)` method to restrict state access to all user's th
   templateUrl: 'partials/except-member.html',
   resolve: {
     admin: function(grant) {
-      return grant.except({test: 'member', state: 'home'});
+      return grant.except({test: 'member', state: 'denied'});
     }
   }
 })
 ```
 
 
-#### Allow ONLY user's that are both **members** and **admins**
+#### Allow ONLY user's that are both members and admins
 
-When a state requires more than a single
-To restrict access to the `combined` state we need to pass both the **member** and **admin** tests to `grant.only`. Before a state with multiple grant tests can resolve all tests will need to pass. It is all or nothing - if either test fails the user will be redirected to the fail state.
+Both `grant.only` and `grant.except` allow you to provide multiple grant tests when needed. In the example's `combined` state we want only user's that pass both the **member** and **admin** grant tests to have access. Before a state with multiple grant tests can resolve both tests will need to pass - It is all or nothing.
 
 >
 It's important to note that grant's with multiple asynchronous tests may not resolve/reject in the order they are listed. For example if a user fails both the **member** and **admin** tests, but the admin test rejects before the member test. The user will actually be redirected to the admin fail state even though it is listed second.
@@ -202,6 +187,61 @@ It's important to note that grant's with multiple asynchronous tests may not res
   }
 })
 ```
+
+
+#### Working with nested states
+
+Instead of protecting individual states you can also protect parent states, which means protection will propagate down to all child states. In the example below by applying the grant member test to the `parent` state, we have also protected `parent.child1` and `parent.child2` with the same test.
+
+```javascript
+.state('parent', {
+  abstract: true,
+  template: '<div ui-view></div>',
+  resolve: {
+    member: function(grant) {
+      return grant.only({test: 'member', state: 'denied'});
+    }
+  }
+})
+
+  .state('parent.child1', {
+    url: '/nested',
+    templateUrl: 'partials/nested.html'
+  })
+
+  .state('parent.child2', {
+    url: '/nested',
+    templateUrl: 'partials/nested.html'
+  })
+```
+
+You can also still apply separate grant tests to child states as well. Using the above example again we will now apply an admin grant test to the `parent.child1` state.
+
+```javascript
+.state('parent', {
+  abstract: true,
+  template: '<div ui-view></div>',
+  resolve: {
+    member: function(grant) {
+      return grant.only({test: 'member', state: 'denied'});
+    }
+  }
+})
+
+  .state('parent.child1', {
+    url: '/nested',
+    templateUrl: 'partials/nested.html',
+    resolve: {
+      admin: function(grant, member) {
+        // by injecting the member resolve key from the 'parent' state
+        // we ensure that the member grant test will be completed before
+        // the admin test executes in the 'parent.child1' state.
+        return grant.only({test: 'admin', state: 'denied'});
+      }
+    }
+  })
+```
+
 
 
 #### grant
