@@ -4,11 +4,12 @@
 
 #### Easily protect your ui-router states with this angular module
 
-The UI Router Grant module provides a quick and easy solution for adding test(s) to your ui-router states. For example if you wanted to restrict certain states to authenticated users, ui-router.grant is a quick solve. For more details check out the [demo]() or the [getting started]() section.
+The UI Router Grant module provides a quick and easy solution for adding test(s) to your ui-router states. For example if you wanted to restrict certain states to authenticated users, ui-router.grant is a quick solve. For more details check out the [demo](http://embed.plnkr.co/YTBm8ZFY9COj8ac9lSOT/preview) or the [getting started](#getting-started) section.
 
-* [Demo]()
-* [Installation]()
-* [Getting Started]()
+* [Demo](http://embed.plnkr.co/YTBm8ZFY9COj8ac9lSOT/preview)
+* [Installation](#installation)
+* [Getting Started](#getting-started)
+* [API Reference](#api-reference)
 
 
 // uses ui-router resolve
@@ -126,7 +127,7 @@ app.module('app', ['ui.router.grant'])
 Use the `grant.only(options)` method to allow state access to only those user's that pass the provided grant tests.
 
 >
-The options param can either be a single test object, or an array of test objects if there are [multiple tests](). A valid test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) properties.
+The options param can either be a single test object, or an array of test objects if there are [multiple tests](#allow-only-users-that-are-both-members-and-admins). A valid test object requires two properties **test** (test name) and **state** (ui-router state the user will be redirected to if the test fails) properties.
 
 ```javascript
 .state('admin-only', {
@@ -243,7 +244,7 @@ You can also still apply separate grant tests to child states as well. Using the
 
 
 
-#### grant
+## API Reference
 
 The grant service is in charge of managing and executing all your grant tests.
 
