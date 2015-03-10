@@ -267,16 +267,34 @@ grant.addTest('member', function() {
 
 #### grant.addTest( testName, validateFunction )
 
-| Param            | Type     | Details               |
-|------------------|----------|-----------------------|
-| testName         | String   | Here are some details |
-| validateFunction | Function | Here are some details |
+Add a new test to the grant service that can be used by `grant.only` and `grant.except`
 
-* **testName** (required)
+| Param            | Type     | Details                                                                                                                                                                                 |
+|------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| testName         | String   | A unique identifier for your test.                                                                                                                                                      |
+| validateFunction | Function | A function that should return a promise or value. If the test has passed the promise should resolve, and if value it should return truthy. The opposite should occur if the test fails. |
+
+
+
 
 #### grant.hasTest( testName )
 
-#### grant.only( testName )
+Check to see if the test already exists in grant service.
+
+| Param    | Type   | Details                            |
+|----------|--------|------------------------------------|
+| testName | String | A unique identifier for your test. |
+
+**Returns** Boolean
+Will return true if test exists, and false if it does not.
+
+
+
+#### grant.only( tests, stateParams )
+
+| Param | Type         | Details                                                                                                                                        |
+|-------|--------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| tests | Object/Array | A single test object or an array of multiple test objects.  Test object format: {test: 'testName',  state: 'stateName'}  * test adfsadasdfadf  |
 
 
 
