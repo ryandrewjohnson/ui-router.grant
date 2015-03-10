@@ -1,13 +1,13 @@
 (function (root, factory) {
   // AMD
   if (typeof define === 'function' && define.amd) {
-    define(['angular', 'ui-router'], function (angular) {
+    define(['angular', 'angular-ui-router'], function (angular) {
       return factory(angular);
     });
   }
   // Node.js
   else if (typeof exports === 'object') {
-    module.exports = factory(require('angular'), require('ui-router'));
+    module.exports = factory(require('angular'), require('angular-ui-router'));
   }
   // Angular
   else if (angular) {
