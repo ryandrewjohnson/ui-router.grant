@@ -238,9 +238,41 @@ You can also still apply separate grant tests to child states as well. Using the
 ```
 
 
+#### Passing stateParams to grant tests
+
+There may be instances where your grant tests need acces to the state's ui-router [$stateParams](https://github.com/angular-ui/ui-router/wiki/URL-Routing) object. This can be done by passing the stateParams object to your `grant.only` or `grant.except` method. This will ensure that any of the included tests have access to the $stateParams object.
+
+```javascript
+.state('member-only', {
+  url: '/members/:memberId',
+  templateUrl: 'partials/only-member.html',
+  resolve: {
+    member: function(grant, $stateParams) {
+      return grant.only({test: 'member', state: 'denied'}, $stateParams);
+    }
+  }
+})
+
+grant.addTest('member', function() {
+  // You now have access to $stateParams through
+  // the GrantTest instance stateParams property
+  var memberId = this.stateParams.memberId;
+
+  return memberService.getUser(memberId);
+});
+```
+
+
 ## API Reference
 
 #### grant.addTest( testName, validateFunction )
+
+| Param            | Type     | Details               |
+|------------------|----------|-----------------------|
+| testName         | String   | Here are some details |
+| validateFunction | Function | Here are some details |
+
+* **testName** (required)
 
 #### grant.hasTest( testName )
 

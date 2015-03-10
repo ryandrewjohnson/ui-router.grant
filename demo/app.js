@@ -59,7 +59,7 @@ angular.module('demo', ['ui.router.grant'])
     })
 
     .state('user-only', {
-      url: '/users',
+      url: '/users/:userId',
       templateUrl: 'only-user.html',
       resolve: {
         user: function(grant) {
