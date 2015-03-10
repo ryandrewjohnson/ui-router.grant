@@ -292,16 +292,30 @@ Will return true if test exists, and false if it does not.
 
 #### grant.only( tests, stateParams )
 
-Ensure that only those user's that pass the provided tests gain access to the ui-router state.
+Ensure that ONLY those user's that pass the provided tests gain access to the ui-router state.
 
 | Param                  | Type         | Details                                                   |
 |------------------------|--------------|-----------------------------------------------------------|
 | tests                  | Object/Array | A single test object or an array of multiple test objects |
 | stateParams (optional) | Object       | A reference to ui-router's $stateParams object            |
 
-##### Test Object
 
-> single test: `{test: 'testName', state: 'stateName'}`
+
+#### grant.only( tests, stateParams )
+
+Ensure that all user's EXCEPT those that pass the provided tests gain access to the ui-router state.
+
+| Param                  | Type         | Details                                                   |
+|------------------------|--------------|-----------------------------------------------------------|
+| tests                  | Object/Array | A single test object or an array of multiple test objects |
+| stateParams (optional) | Object       | A reference to ui-router's $stateParams object            |
+
+
+#### Test Object
+
+The test object(s) `grant.only` and `grant.except` require should be in the following format.
+
+> single test: `{test: 'testName', state: 'stateName'}`<br/>
 > multiple tests: `[{test: 'testName', state: 'stateName'}, {test: 'testName2', state: 'stateName2'}]`
 
 * **test** the test name for the grant test you want to add

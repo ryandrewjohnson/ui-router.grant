@@ -18,7 +18,10 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "Gruntfile.js",
+    "src",
+    "demo"
   ],
   "dependencies": {
     "angular": "~1.3.14",
