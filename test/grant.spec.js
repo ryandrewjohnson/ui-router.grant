@@ -7,6 +7,7 @@ describe('Grant Service', function () {
       callbacks,
       resolve,
       reject,
+      $stateParams,
       $rootScope;
 
 
@@ -19,6 +20,7 @@ describe('Grant Service', function () {
       $rootScope = _$rootScope_;
     });
 
+    $stateParams = {userId: '12345'};
     callbacks = {reject: function () {}, resolve: function () {}};
     resolve = sinon.spy(callbacks, 'resolve');
     reject = sinon.spy(callbacks, 'reject');
@@ -140,6 +142,18 @@ describe('Grant Service', function () {
 
       $rootScope.$digest();
     });
+
+    it('should add stateParams to tests', function() {
+      var userId;
+
+      grant.addTest('guest', function() {
+        userId = this.stateParams.userId;
+      });
+
+      grant.only({test: 'guest', state: 'test.state'}, $stateParams);
+
+      expect(userId).to.equal($stateParams.userId);
+    });
   });
 
   describe('#expect', function() {
@@ -205,6 +219,18 @@ describe('Grant Service', function () {
 
       expect(reject).to.have.been.called;
       expect(resolve).to.not.be.called;
+    });
+
+    it('should add stateParams to tests', function() {
+      var userId;
+
+      grant.addTest('guest', function() {
+        userId = this.stateParams.userId;
+      });
+
+      grant.except({test: 'guest', state: 'test.state'}, $stateParams);
+
+      expect(userId).to.equal($stateParams.userId);
     });
   });
 });

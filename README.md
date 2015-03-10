@@ -322,5 +322,15 @@ The test object(s) `grant.only` and `grant.except` require should be in the foll
 * **state** the ui-router state the user will be redirected to if they fail the test
 
 
+## Notes
+* This module was inspired by [Narzerus'](https://github.com/Narzerus/angular-permission) angular-permission module.
+
+
+
+## Author
+* Ryan Johnson
+* @ryandrewjohnson
+
+
 
 
