@@ -16,7 +16,7 @@ The UI Router Grant module provides a quick and easy solution for adding test(s)
 ## Installation
 
 - via **[Bower](http://bower.io/)**: by running `$ bower install angular-ui-router-grant` from your console
-- (Coming Soon) or via **[npm](https://www.npmjs.org/)**: by running `$ npm install angular-ui-router-grant` from your console
+- via **[npm](https://www.npmjs.org/)**: by running `$ npm install ui-router.grant` from your console
 
 #### Using < IE9
 The module takes advantage of [Array.prototype.forEach()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) and [Array.prototype.some()](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some) which are unavailable in older browsers. The good news is both these methods can be easily [polyfilled](https://github.com/es-shims/es5-shim).
