@@ -74,6 +74,10 @@ module.exports = function(grunt) {
         autoWatch: true,
         singleRun: false
       },
+      unit_single: {
+        autoWatch: false,
+        singleRun: true
+      },
       unit_coverage: {
         reporters: ['mocha', 'coverage'],
         preprocessors: {

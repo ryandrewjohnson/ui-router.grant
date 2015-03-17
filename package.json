@@ -1,7 +1,7 @@
 {
   "name": "ui-router.grant",
-  "version": "0.1.0",
-  "description": "The UI Router Grant module provides a quick and easy solution to protect your ui-router states",
+  "version": "0.1.1",
+  "description": "Protect your ui-router routes with the easy to use grant module.",
   "repository": {
     "type": "git",
     "url": "https://github.com/ryandrewjohnson/ui-router.grant"
@@ -11,7 +11,16 @@
   "bugs": {
     "url": "https://github.com/ryandrewjohnson/ui-router.grant/issues"
   },
+  "scripts": {
+    "test": "grunt karma:unit_single"
+  },
+  "browser": "dist/angular-ui-router-grant.js",
   "homepage": "https://github.com/ryandrewjohnson/ui-router.grant",
+  "keywords": [
+    "angularjs",
+    "ui-router",
+    "permissions"
+  ],
   "devDependencies": {
     "chai": "^1.10.0",
     "grunt": "^0.4.5",
@@ -31,5 +40,8 @@
     "karma-sinon-chai": "^0.3.0",
     "mocha": "^2.1.0",
     "sinon": "^1.12.2"
+  },
+  "dependencies": {
+    "angular-ui-router": "^0.2.13"
   }
 }

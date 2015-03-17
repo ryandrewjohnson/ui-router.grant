@@ -1,18 +1,18 @@
 /**
- * ui-router.grant - v0.1.0 (2015-02-28)
+ * ui-router.grant - v0.1.1 (2015-03-16)
  * https://github.com/ryandrewjohnson/ui-router.grant
  * Copyright (c) 2015 ; Licensed MIT 
  */
 (function (root, factory) {
   // AMD
   if (typeof define === 'function' && define.amd) {
-    define(['angular', 'ui-router'], function (angular) {
+    define(['angular', 'angular-ui-router'], function (angular) {
       return factory(angular);
     });
   }
   // Node.js
   else if (typeof exports === 'object') {
-    module.exports = factory(require('angular'), require('ui-router'));
+    module.exports = factory(require('angular'), require('angular-ui-router'));
   }
   // Angular
   else if (angular) {

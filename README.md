@@ -1,6 +1,6 @@
 # AngularUI Router Grant
 
-#### Easily protect your ui-router states with this angular module
+#### Protect your ui-router routes with the easy to use grant module.
 
 The UI Router Grant module provides a quick and easy solution for adding test(s) to your ui-router states. For example if you wanted to restrict certain states to authenticated users, ui-router.grant is a quick solve. For more details check out the [demo](http://embed.plnkr.co/YTBm8ZFY9COj8ac9lSOT/preview) or the [getting started](#getting-started) section.
 
