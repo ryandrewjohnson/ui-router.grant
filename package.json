@@ -1,6 +1,6 @@
 {
   "name": "ui-router.grant",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Protect your ui-router routes with the easy to use grant module.",
   "repository": {
     "type": "git",
