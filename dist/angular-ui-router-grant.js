@@ -1,5 +1,5 @@
 /**
- * ui-router.grant - v0.1.1 (2015-03-16)
+ * ui-router.grant - v0.1.2 (2015-04-06)
  * https://github.com/ryandrewjohnson/ui-router.grant
  * Copyright (c) 2015 ; Licensed MIT 
  */
@@ -237,7 +237,7 @@
 
 
 
-  .run(['$rootScope', '$state', 'GRANT_ERROR', function($rootScope, $state, GRANT_ERROR) {
+  .run(['$rootScope', '$state', 'GRANT_ERROR', function($rootScope, $state, $log, GRANT_ERROR) {
 
     $rootScope.$on('$stateChangeError', onStateChangeError);
 
@@ -249,13 +249,13 @@
         // a to state that is equal to current state
         if (error.stateTo === fromState) {
           evt.preventDefault();
-          console.log('grant: test "'+error.test+'" stateTo redirect prevented. State "'+error.stateTo+'" is the current state');
+          $log.warn('grant: test "'+error.test+'" stateTo redirect prevented. State "'+error.stateTo+'" is the current state');
           return;
         }
 
         if (!$state.get(error.stateTo)) {
           evt.preventDefault();
-          console.log('grant: test "'+error.test+'" stateTo redirect prevented. State name "'+error.stateTo+'" does not exist in ui-router $stateProvider');
+          $log.warn('grant: test "'+error.test+'" stateTo redirect prevented. State name "'+error.stateTo+'" does not exist in ui-router $stateProvider');
           return;
         }
 
