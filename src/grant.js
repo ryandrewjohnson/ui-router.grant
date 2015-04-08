@@ -232,7 +232,7 @@
 
 
 
-  .run(['$rootScope', '$state', 'GRANT_ERROR', function($rootScope, $state, $log, GRANT_ERROR) {
+  .run(['$rootScope', '$state', '$log', 'GRANT_ERROR', function($rootScope, $state, $log, GRANT_ERROR) {
 
     $rootScope.$on('$stateChangeError', onStateChangeError);
 

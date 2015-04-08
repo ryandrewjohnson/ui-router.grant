@@ -1,5 +1,5 @@
 /**
- * ui-router.grant - v0.1.2 (2015-04-06)
+ * ui-router.grant - v0.1.3 (2015-04-08)
  * https://github.com/ryandrewjohnson/ui-router.grant
  * Copyright (c) 2015 ; Licensed MIT 
  */
@@ -237,7 +237,7 @@
 
 
 
-  .run(['$rootScope', '$state', 'GRANT_ERROR', function($rootScope, $state, $log, GRANT_ERROR) {
+  .run(['$rootScope', '$state', '$log', 'GRANT_ERROR', function($rootScope, $state, $log, GRANT_ERROR) {
 
     $rootScope.$on('$stateChangeError', onStateChangeError);
 
