@@ -301,7 +301,7 @@ Ensure that ONLY those user's that pass the provided tests gain access to the ui
 
 
 
-#### grant.only( tests, stateParams )
+#### grant.except( tests, stateParams )
 
 Ensure that all user's EXCEPT those that pass the provided tests gain access to the ui-router state.
 
