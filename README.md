@@ -30,7 +30,7 @@ Once you have successfully installed the module your setup should look similar t
 <head>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.12/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.min.js"></script>
-  <script src="js/angular-ui-rotuer-grant.js"></script>
+  <script src="js/angular-ui-router-grant.js"></script>
     <script>
         var app = angular.module('app', ['ui.router.grant']);
     </script>
